@@ -20,13 +20,11 @@ my-pos-system/
 * **Language:** TypeScript
 * **Styling:** CSS & Tailwind CSS
 * **Animations:** Framer Motion (for satisfying micro-animations & transitions)
-* **Key Features:** Client-side custom hooks (`useVoucher`, `useErrorState`), Next.js optimized Image configurations, Suspense boundaries, and custom virtual keyboards.
 
 ### ☕ Backend (`pos-backend`)
-* **Framework:** Spring Boot (Java 17+)
+* **Framework:** Spring Boot (Java 25+)
 * **Database:** Spring Data JPA / Hibernate (H2 Database for dev/demo)
 * **Architecture:** strict MVC Layered Architecture (Controller ➔ Service ➔ Repository)
-* **Key Features:** Transaction integrity, automated max-uses validation for voucher rules, explicit relational cascade management, and REST APIs.
 
 ---
 
@@ -103,11 +101,11 @@ Follow these instructions to spin up the full-stack demo environment locally.
 Use the following default maid credentials to log in and start testing the POS flow:
 
 * **Admin Access:**
-  * **Email:** `admin@nekobite.cafe`/usa
+  * **Email:** `admin@nekobite.com`
   * **Password:** `admin123`
 * **Staff Access:**
-  * **Email:** `yuna@nekobite.cafe`
+  * **Email:** `yuna@nekobite.com`
   * **Password:** `1111`
 * **Chef Access:**
-  * **Email:** `chef@nekobite.cafe`
+  * **Email:** `chef@nekobite.com`
   * **Password:** `5555`

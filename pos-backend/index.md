@@ -1,0 +1,99 @@
+# Codebase Index
+
+This index maintains the file and directory structure of the Spring Boot POS System backend. Refer to this file to locate classes, configuration, and build setups.
+
+## File & Directory Structure
+
+- [pom.xml](file:///F:/Work/Programming/my-pos-system/pos-backend/pom.xml) — Maven Project Object Model configuration (Java 21, Spring Boot 4.0.6, Lombok, Spring Data JPA, Security, JWT, SQLite Dialect).
+- **src/main/java** — Main application source files.
+  - **com.udong.posbackend** — Base package.
+    - [PosBackendApplication.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/PosBackendApplication.java) — The Spring Boot main entry point.
+    - **config** — Configuration beans, security, and Spring profiles.
+      - [JwtTokenProvider.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/config/JwtTokenProvider.java) — JWT utility class for generating/validating tokens.
+      - [JwtAuthenticationFilter.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/config/JwtAuthenticationFilter.java) — Interceptor filter for validating requests using JWT.
+      - [SecurityConfig.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/config/SecurityConfig.java) — Main Spring Security Filter Chain configuration.
+      - [PosProperties.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/config/PosProperties.java) — Type-safe configuration properties for POS pricing (tax rate, service charge rate).
+    - **constant** — Constant values and Enums.
+      - [Role.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/constant/Role.java) — Role Enum (ADMIN, MAID).
+      - [Category.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/constant/Category.java) — Product category Enum matching frontend category tags.
+      - [PaymentMethod.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/constant/PaymentMethod.java) — Order payment method Enum (CASH, CARD, QR).
+      - [OrderStatus.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/constant/OrderStatus.java) — Order status Enum (COMPLETED, PENDING).
+      - [ServiceType.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/constant/ServiceType.java) — Order service type Enum (DINE_IN, TAKEAWAY).
+    - **util** — General utilities and helpers.
+      - [PasswordHelper.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/util/PasswordHelper.java) — Password Encoder bean configuration.
+    - **mapper** — MapStruct entity-to-DTO / DTO-to-entity object mappers.
+      - [ProductMapper.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/mapper/ProductMapper.java) — Maps Product entity to/from DTOs.
+      - [OrderItemMapper.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/mapper/OrderItemMapper.java) — Maps OrderItem entity to DTO.
+      - [OrderMapper.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/mapper/OrderMapper.java) — Maps Order entity to DTO.
+      - [TableMapper.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/mapper/TableMapper.java) — Maps CafeTable entity and parameters to DTO.
+    - **controller** — Controllers (View/API representation layer).
+      - [AuthController.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/controller/AuthController.java) — Endpoints for Maid Login.
+      - [ProductController.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/controller/ProductController.java) — Endpoints for Catalog Retrieval, CRUD, and Stock updates.
+      - [OrderController.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/controller/OrderController.java) — Endpoints for Cart Checkout, Order History, Append Order Items, Table Bill Dispatcher, and Table Payments.
+      - [TableController.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/controller/TableController.java) — Endpoints for Table status query, active orders, and management.
+      - [AnalyticsController.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/controller/AnalyticsController.java) — Endpoints for Metrics, Category Shares, and Maid Leaderboards.
+    - **service** — Business logic layer.
+      - [UserService.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/service/UserService.java) — User business logic and UserDetailsService.
+      - [ProductService.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/service/ProductService.java) — Product CRUD logic.
+      - [OrderService.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/service/OrderService.java) — Order processing, receipt number generation, stock deduction, and billing settlement.
+      - [TableService.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/service/TableService.java) — Table management and active order loading.
+      - [SeedDefaultDataService.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/service/SeedDefaultDataService.java) — Centralized database seeding configuration.
+      - [ReceiptNumberGeneratorService.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/service/ReceiptNumberGeneratorService.java) — Thread-safe sequential receipt number generator service with optimistic locking.
+      - [AnalyticsService.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/service/AnalyticsService.java) — Calculations for metrics, category share sales, and maid leaderboards.
+    - **repository** — Database access layer.
+      - [UserRepository.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/repository/UserRepository.java) — Database repository for User entity.
+      - [ProductRepository.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/repository/ProductRepository.java) — Database repository for Product entity.
+      - [ProductSpecifications.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/repository/ProductSpecifications.java) — JPA specifications helper for dynamic Product queries.
+      - [OrderRepository.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/repository/OrderRepository.java) — Database repository for Order entity.
+      - [CafeTableRepository.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/repository/CafeTableRepository.java) — Database repository for CafeTable entity.
+      - [RunnerReceiptNumberRepository.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/repository/RunnerReceiptNumberRepository.java) — Database repository for RunnerReceiptNumber sequence tracking.
+    - **model** — Database Entities (Domain model objects).
+      - [UserEntity.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/model/UserEntity.java) — User database entity.
+      - [ProductEntity.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/model/ProductEntity.java) — Product database entity.
+      - [OrderEntity.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/model/OrderEntity.java) — Order database entity.
+      - [OrderItemEntity.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/model/OrderItemEntity.java) — Order item database entity.
+      - [CafeTableEntity.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/model/CafeTableEntity.java) — Cafe dining table database entity.
+      - [RunnerReceiptNumberEntity.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/model/RunnerReceiptNumberEntity.java) — Runner receipt number sequence entity for optimistic locking.
+    - **dto** — Data Transfer Objects (Request/Response payloads).
+      - [ApiResponse.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/dto/ApiResponse.java) — Standard response wrapper.
+      - [PagedResponse.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/dto/PagedResponse.java) — Simplified paginated response structure.
+      - **auth** — Authentication DTOs.
+        - [LoginRequest.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/dto/auth/LoginRequest.java) — Request structure for login.
+        - [LoginResponse.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/dto/auth/LoginResponse.java) — Response structure for login.
+      - **product** — Product catalog DTOs.
+        - [ProductRequest.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/dto/product/ProductRequest.java) — Request payload for creating/updating products.
+        - [ProductResponse.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/dto/product/ProductResponse.java) — Response payload for product info.
+        - [StockUpdateRequest.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/dto/product/StockUpdateRequest.java) — Request payload for stock adjustments.
+        - [StockUpdateItem.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/dto/product/StockUpdateItem.java) — Request payload for individual item stock updates.
+        - [BulkStockUpdateRequest.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/dto/product/BulkStockUpdateRequest.java) — Request payload for bulk list stock updates.
+      - **order** — Order and checkout DTOs.
+        - [OrderItemRequest.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/dto/order/OrderItemRequest.java) — Request item for order checkout.
+        - [OrderItemResponse.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/dto/order/OrderItemResponse.java) — Response item containing order line details.
+        - [OrderRequest.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/dto/order/OrderRequest.java) — Request payload for checkout transactions.
+        - [OrderResponse.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/dto/order/OrderResponse.java) — Detailed order status / ticket transaction response.
+      - **table** — Table DTOs.
+        - [TableRequest.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/dto/table/TableRequest.java) — Request payload for creating tables.
+        - [TableResponse.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/dto/table/TableResponse.java) — Response payload for table info and active orders.
+      - **analytics** — Analytics calculation response DTOs.
+        - [MetricsResponse.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/dto/analytics/MetricsResponse.java) — Detailed overall analytics metrics.
+        - [CategoryShareResponse.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/dto/analytics/CategoryShareResponse.java) — Category sales distribution response.
+        - [MaidLeaderboardEntry.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/dto/analytics/MaidLeaderboardEntry.java) — Leaderboard ranking entry per maid.
+    - **exception** — Global exception handlers & custom exception classes.
+      - [ResourceNotFoundException.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/exception/ResourceNotFoundException.java) — Exception for not found resources.
+      - [GlobalExceptionHandler.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/java/com/udong/posbackend/exception/GlobalExceptionHandler.java) — Central exception handling advice.
+- **src/main/resources** — Configuration and static assets.
+  - [application.properties](file:///F:/Work/Programming/my-pos-system/pos-backend/src/main/resources/application.properties) — Spring Boot properties configuration.
+- **src/test/java** — Test source files.
+  - **com.udong.posbackend** — Test package.
+    - [PosBackendApplicationTests.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/test/java/com/udong/posbackend/PosBackendApplicationTests.java) — Core context loading tests.
+    - **service**
+      - [UserServiceTest.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/test/java/com/udong/posbackend/service/UserServiceTest.java) — Unit tests for UserService.
+      - [ProductServiceTest.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/test/java/com/udong/posbackend/service/ProductServiceTest.java) — Unit tests for ProductService.
+    - **controller**
+      - [AuthControllerTest.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/test/java/com/udong/posbackend/controller/AuthControllerTest.java) — Unit tests for AuthController.
+      - [ProductControllerTest.java](file:///F:/Work/Programming/my-pos-system/pos-backend/src/test/java/com/udong/posbackend/controller/ProductControllerTest.java) — Unit tests for ProductController.
+- **.agents/skills** — Skill configurations for AI agents.
+  - [java-springboot/SKILL.md](file:///F:/Work/Programming/my-pos-system/pos-backend/.agents/skills/java-springboot/SKILL.md) — Spring Boot Best Practices & guidelines.
+  - [java-junit/SKILL.md](file:///F:/Work/Programming/my-pos-system/pos-backend/.agents/skills/java-junit/SKILL.md) — Testing guidelines.
+  - [java-refactoring-extract-method/SKILL.md](file:///F:/Work/Programming/my-pos-system/pos-backend/.agents/skills/java-refactoring-extract-method/SKILL.md) — Refactoring guidelines for extract method.
+  - [java-refactoring-remove-parameter/SKILL.md](file:///F:/Work/Programming/my-pos-system/pos-backend/.agents/skills/java-refactoring-remove-parameter/SKILL.md) — Refactoring guidelines for removing parameter.

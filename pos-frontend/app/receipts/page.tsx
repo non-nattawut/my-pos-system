@@ -4,7 +4,7 @@ import { fetchReceipts, ReceiptFilterParams } from '@/services/api-receipts';
 import { fetchProducts } from '@/services/api-products';
 import { fetchMaids } from '@/services/api-auth';
 import { verifyAuth } from '../../utils/auth';
-import { ReceiptResponse, Product, UserResponse } from '@/types';
+import { ReceiptResponse, Product, AuthUser } from '@/types';
 
 interface PageProps {
   searchParams: Promise<{
@@ -21,7 +21,7 @@ export default async function ReceiptsPage({ searchParams }: PageProps) {
 
   let initialReceipts: ReceiptResponse[] = [];
   let products: Product[] = [];
-  let maidsList: UserResponse[] = [];
+  let maidsList: AuthUser[] = [];
 
   const filterParams: ReceiptFilterParams = {};
   if (params.maidName) filterParams.maidName = params.maidName;

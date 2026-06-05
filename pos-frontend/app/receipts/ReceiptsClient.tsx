@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { Printer, Receipt as ReceiptIcon } from 'lucide-react';
-import { ReceiptResponse, Product, OrderResponse, UserResponse } from '@/types';
+import { ReceiptResponse, Product, OrderResponse, AuthUser } from '@/types';
 import { ReceiptModal } from '@/components/ui/modal/ReceiptModal';
 import { ProductImageOrEmoji } from '@/components/ui/ProductImageOrEmoji';
 import { useRouter } from 'next/navigation';
@@ -15,7 +15,7 @@ import { Select } from '@/components/ui/Select';
 interface ReceiptsClientProps {
   initialReceipts: ReceiptResponse[];
   products: Product[];
-  maids?: UserResponse[];
+  maids?: AuthUser[];
   currentFilters?: {
     maidName: string;
     receiptNumber: string;

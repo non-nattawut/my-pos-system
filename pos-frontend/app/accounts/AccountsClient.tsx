@@ -70,7 +70,7 @@ export default function AccountsClient({ initialUsers, authUser }: AccountsClien
   const openEditModal = (user: AuthUser) => {
     setEditingUser(user);
     setEmail(user.email || '');
-    setName(user.displayName || '');
+    setName(user.name || '');
     setPassword(''); // leave blank for no change
     setRole((user.role as any) || 'MAID');
     setEmoji(user.emoji || '🐾');
@@ -178,7 +178,7 @@ export default function AccountsClient({ initialUsers, authUser }: AccountsClien
                 {u.imageUrl && !imageErrors[u.email] ? (
                   <Image 
                     src={u.imageUrl} 
-                    alt={u.displayName} 
+                    alt={u.name} 
                     fill 
                     sizes="48px" 
                     className="object-cover" 
@@ -190,7 +190,7 @@ export default function AccountsClient({ initialUsers, authUser }: AccountsClien
               </div>
 
               <div className="flex-1 min-w-0">
-                <h3 className="text-xs font-black text-zinc-200 truncate pr-8">{u.displayName}</h3>
+                <h3 className="text-xs font-black text-zinc-200 truncate pr-8">{u.name}</h3>
                 <p className="text-[9px] text-zinc-500 truncate">{u.email}</p>
               </div>
             </div>

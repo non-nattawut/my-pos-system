@@ -13,7 +13,7 @@ import Image from 'next/image';
 
 export default function ProfileClient({ authUser }: { authUser: AuthUser }) {
   const router = useRouter();
-  const [name, setName] = useState(authUser.displayName || '');
+  const [name, setName] = useState(authUser.name || '');
   const [emoji, setEmoji] = useState(authUser.emoji || '🐾');
   const [imageUrl, setImageUrl] = useState(authUser.imageUrl || '');
 
@@ -22,7 +22,7 @@ export default function ProfileClient({ authUser }: { authUser: AuthUser }) {
       try {
         const res = await fetchUserProfile();
         if (res.success && res.data) {
-          setName(res.data.displayName || '');
+          setName(res.data.name || '');
           setEmoji(res.data.emoji || '🐾');
           setImageUrl(res.data.imageUrl || '');
         }
@@ -72,7 +72,7 @@ export default function ProfileClient({ authUser }: { authUser: AuthUser }) {
       if (res.success && res.data) {
         const updatedUser: AuthUser = {
           ...authUser,
-          displayName: res.data.displayName,
+          name: res.data.name,
           emoji: res.data.emoji,
           imageUrl: res.data.imageUrl,
         };

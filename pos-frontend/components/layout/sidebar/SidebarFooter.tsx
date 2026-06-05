@@ -9,7 +9,7 @@ import { ConfirmModal } from '@/components/ui/modal/ConfirmModal';
 import Image from 'next/image';
 
 export function SidebarFooter({ isCollapsed, authUser }: { isCollapsed: boolean; authUser: AuthUser }) {
-  const currentMaid = authUser?.displayName || null;
+  const currentMaid = authUser?.name || null;
   const router = useRouter();
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [avatarError, setAvatarError] = useState(false);

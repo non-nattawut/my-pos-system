@@ -1,9 +1,27 @@
 import api from '@/services/api';
-import type { ApiResponse, CreateOrderRequest, OrderResponse, ReceiptResponse } from '@/types';
+import type { ApiResponse, OrderResponse, ReceiptResponse, PaymentMethod, OrderStatus, ServiceType } from '@/types';
 
-export async function createOrder(order: CreateOrderRequest): Promise<ApiResponse<OrderResponse>> {
-  const { data } = await api.post<ApiResponse<OrderResponse>>('/api/v1/orders', order);
-  return data;
+/** Request shape for a single item when submitting an order to the API */
+export interface OrderItemRequest {
+  productId: string;
+  quantity: number;
+  note?: string;
+}
+
+/** Request body for POST /api/v1/orders */
+export interface CreateOrderRequest {
+  items: OrderItemRequest[];
+  subtotal: number;
+  tax: number;
+  serviceCharge: number;
+  discount: number;
+  total: number;
+  paymentMethod: PaymentMethod;
+  status: OrderStatus;
+  maidEmail: string | null;
+  serviceType: ServiceType;
+  tableNumber: string | null;
+  voucherCode?: string;
 }
 
 export interface OrderFilterParams {
@@ -11,6 +29,11 @@ export interface OrderFilterParams {
   receiptNumber?: string;
   startDate?: string;
   endDate?: string;
+}
+
+export async function createOrder(order: CreateOrderRequest): Promise<ApiResponse<OrderResponse>> {
+  const { data } = await api.post<ApiResponse<OrderResponse>>('/api/v1/orders', order);
+  return data;
 }
 
 export async function fetchOrders(params?: OrderFilterParams): Promise<ApiResponse<OrderResponse[]>> {

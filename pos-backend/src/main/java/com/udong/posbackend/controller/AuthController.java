@@ -51,7 +51,7 @@ public class AuthController {
         LoginResponse responseData = LoginResponse.builder()
                 .token(token)
                 .email(user.getEmail())
-                .displayName(user.getName())
+                .name(user.getName())
                 .role(user.getRole().name())
                 .emoji(user.getEmoji())
                 .imageUrl(user.getImageUrl())

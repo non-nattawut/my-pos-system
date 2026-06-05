@@ -1,7 +1,8 @@
 'use client';
 
-import React, { createContext, useContext, useState, useMemo } from 'react';
+import React, { createContext, useContext, useState, useMemo, useEffect } from 'react';
 import { CartItem, Product } from '@/types';
+import { fetchConfig } from '@/services/api-config';
 
 interface Discount {
   code: string;
@@ -30,6 +31,24 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [activeDiscount, setActiveDiscount] = useState<Discount | null>(null);
+  const [rates, setRates] = useState({ taxRate: 0.07, serviceChargeRate: 0.10 });
+
+  useEffect(() => {
+    async function loadConfig() {
+      try {
+        const res = await fetchConfig();
+        if (res.success && res.data) {
+          setRates({
+            taxRate: res.data.taxRate,
+            serviceChargeRate: res.data.serviceChargeRate
+          });
+        }
+      } catch (err) {
+        console.error('Failed to fetch POS config from backend:', err);
+      }
+    }
+    loadConfig();
+  }, []);
 
   const addToCart = (product: Product) => {
     setCart(prev => {
@@ -70,8 +89,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const totals = useMemo(() => {
     const subtotal = cart.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
-    const serviceCharge = subtotal * 0.10;
-    const tax = subtotal * 0.07;
+    const serviceCharge = subtotal * rates.serviceChargeRate;
+    const tax = subtotal * rates.taxRate;
     
     let discount = 0;
     if (activeDiscount) {
@@ -80,7 +99,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     
     const total = Math.max(0, subtotal + serviceCharge + tax - discount);
     return { subtotal, serviceCharge, tax, discount, total };
-  }, [cart, activeDiscount]);
+  }, [cart, activeDiscount, rates]);
 
   return (
     <CartContext.Provider

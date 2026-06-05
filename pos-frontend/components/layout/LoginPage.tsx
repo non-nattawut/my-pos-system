@@ -37,7 +37,7 @@ export function LoginPage() {
         const user: AuthUser = {
           token: res.data.token,
           email: res.data.email,
-          displayName: res.data.displayName,
+          name: res.data.name,
           role: res.data.role,
           emoji: res.data.emoji,
           imageUrl: res.data.imageUrl,

@@ -72,7 +72,7 @@ class AuthControllerTest {
                 .andExpect(jsonPath("$.success").value(true))
                 .andExpect(jsonPath("$.data.token").value("mocked-jwt-token"))
                 .andExpect(jsonPath("$.data.email").value("admin@pos.com"))
-                .andExpect(jsonPath("$.data.displayName").value("Admin Staff"));
+                .andExpect(jsonPath("$.data.name").value("Admin Staff"));
     }
 
     @Test

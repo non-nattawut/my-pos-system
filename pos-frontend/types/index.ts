@@ -29,31 +29,6 @@ export interface CartItem {
   note?: string;
 }
 
-/** Request shape for a single item when submitting an order to the API */
-export interface OrderItemRequest {
-  productId: string;
-  quantity: number;
-  note?: string;
-}
-
-/** Request body for POST /api/v1/orders */
-export interface CreateOrderRequest {
-  items: OrderItemRequest[];
-  subtotal: number;
-  tax: number;
-  serviceCharge: number;
-  discount: number;
-  total: number;
-  paymentMethod: PaymentMethod;
-  status: OrderStatus;
-  maidEmail: string | null;
-  serviceType: ServiceType;
-  tableNumber: string | null;
-  voucherCode?: string;
-}
-
-
-
 /** Standard API response envelope from the backend */
 export interface ApiResponse<T> {
   success: boolean;
@@ -62,22 +37,12 @@ export interface ApiResponse<T> {
   timestamp: string;
 }
 
-/** Login endpoint response data */
-export interface LoginResponseData {
-  token: string;
-  email: string;
-  displayName: string;
-  role: UserRole;
-  emoji?: string;
-  imageUrl?: string;
-}
-
 /** Authenticated user session info stored in context */
 export interface AuthUser {
   id?: string;
   token?: string;
   email: string;
-  displayName: string;
+  name: string;
   role: UserRole;
   emoji?: string;
   imageUrl?: string | null;
@@ -95,49 +60,6 @@ export interface Page<T> {
   totalElements: number;
   totalPages: number;
   last: boolean;
-}
-
-export interface FetchProductsParams {
-  page?: number;
-  size?: number;
-  name?: string;
-  category?: string;
-  minPrice?: number;
-  maxPrice?: number;
-  minStock?: number;
-  maxStock?: number;
-  deleted?: boolean;
-}
-
-export interface CreateTableRequest {
-  tableNumber: string;
-  seatSize: number;
-}
-
-export interface UserResponse {
-  id?: string;
-  email: string;
-  name: string;
-  role: UserRole;
-  emoji?: string;
-  imageUrl?: string | null;
-}
-
-export interface CreateUserRequest {
-  email?: string;
-  name?: string;
-  password?: string | null;
-  role?: UserRole;
-  emoji?: string;
-  imageUrl?: string | null;
-}
-
-export interface UpdateProfileRequest {
-  name?: string;
-  emoji?: string;
-  imageUrl?: string | null;
-  password?: string | null;
-  oldPassword?: string | null;
 }
 
 export interface OrderItemDbResponse {
@@ -201,4 +123,3 @@ export interface TableResponse {
   updatedAt?: string;
   updatedBy?: string;
 }
-

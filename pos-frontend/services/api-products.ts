@@ -1,5 +1,26 @@
 import api from '@/services/api';
-import type { ApiResponse, Product, Page, FetchProductsParams } from '@/types';
+import type { ApiResponse, Product, Page } from '@/types';
+
+export interface FetchProductsParams {
+  page?: number;
+  size?: number;
+  name?: string;
+  category?: string;
+  minPrice?: number;
+  maxPrice?: number;
+  minStock?: number;
+  maxStock?: number;
+  deleted?: boolean;
+}
+
+export interface StockUpdateItem {
+  productId: string;
+  stockQuantity: number;
+}
+
+export interface BulkUpdateProductStockRequest {
+  updates: StockUpdateItem[];
+}
 
 export async function fetchProducts(params?: FetchProductsParams): Promise<ApiResponse<Page<Product>>> {
   const { data } = await api.get<ApiResponse<Page<Product>>>('/api/v1/products', { params });
@@ -18,7 +39,7 @@ export async function updateProductStock(id: string, stockQuantity: number): Pro
   return data;
 }
 
-export async function bulkUpdateProductStock(request: { updates: { productId: string; stockQuantity: number }[] }): Promise<ApiResponse<Product[]>> {
+export async function bulkUpdateProductStock(request: BulkUpdateProductStockRequest): Promise<ApiResponse<Product[]>> {
   const { data } = await api.put<ApiResponse<Product[]>>('/api/v1/products/stock', request);
   return data;
 }
@@ -47,7 +68,3 @@ export async function updateProduct(id: string, product: Partial<Product>): Prom
   const { data } = await api.put<ApiResponse<Product>>(`/api/v1/products/${id}`, product);
   return data;
 }
-
-
-
-

@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { Printer, History } from 'lucide-react';
-import { OrderResponse, Product, UserResponse } from '@/types';
+import { OrderResponse, Product, AuthUser } from '@/types';
 import { ReceiptModal } from '@/components/ui/modal/ReceiptModal';
 import { ProductImageOrEmoji } from '@/components/ui/ProductImageOrEmoji';
 import { useRouter } from 'next/navigation';
@@ -15,7 +15,7 @@ import { Select } from '@/components/ui/Select';
 interface HistoryClientProps {
   initialOrders: OrderResponse[];
   products: Product[];
-  maids?: UserResponse[];
+  maids?: AuthUser[];
   currentFilters?: {
     maidName: string;
     receiptNumber: string;

@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class LoginResponse {
     private String token;
     private String email;
-    private String displayName;
+    private String name;
     private String role;
     private String emoji;
     private String imageUrl;

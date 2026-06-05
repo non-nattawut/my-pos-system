@@ -4,7 +4,7 @@ import { fetchOrders, OrderFilterParams } from '@/services/api-orders';
 import { fetchProducts } from '@/services/api-products';
 import { fetchMaids } from '@/services/api-auth';
 import { verifyAuth } from '../../utils/auth';
-import { OrderResponse, Product, UserResponse } from '@/types';
+import { OrderResponse, Product, AuthUser } from '@/types';
 
 interface PageProps {
   searchParams: Promise<{
@@ -21,7 +21,7 @@ export default async function HistoryPage({ searchParams }: PageProps) {
 
   let initialOrders: OrderResponse[] = [];
   let products: Product[] = [];
-  let maidsList: UserResponse[] = [];
+  let maidsList: AuthUser[] = [];
 
   const filterParams: OrderFilterParams = {};
   if (params.maidName) filterParams.maidName = params.maidName;

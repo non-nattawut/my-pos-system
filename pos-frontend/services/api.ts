@@ -55,13 +55,13 @@ api.interceptors.request.use(async (config) => {
 });
 
 /**
- * Response interceptor to handle 403 Forbidden.
+ * Response interceptor to handle 401
  * On the client side, it clears the auth cookies/localStorage and redirects to the homepage.
  */
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
-    if (error.response && error.response.status === 403) {
+    if (error.response && error.response.status === 401) {
       if (typeof window !== 'undefined') {
         localStorage.removeItem(AUTH_COOKIE_KEY);
         localStorage.removeItem(AUTH_TOKEN_KEY);

@@ -1,15 +1,11 @@
 import React from 'react';
-import { verifyAuth } from '../../utils/auth';
-import { redirect } from 'next/navigation';
+import { verifyAdmin } from '../../utils/auth';
 import AccountsClient from './AccountsClient';
 import { fetchUsers } from '@/services/api-users';
 import type { AuthUser } from '@/types';
 
 export default async function AccountsPage() {
-  const authUser = await verifyAuth();
-  if (authUser.role !== 'ADMIN') {
-    redirect('/');
-  }
+  const authUser = await verifyAdmin();
 
   let users: AuthUser[] = [];
   try {
@@ -21,5 +17,5 @@ export default async function AccountsPage() {
     console.error('Failed to load users:', err);
   }
 
-  return <AccountsClient initialUsers={users} authUser={authUser} />;
+  return <AccountsClient initialUsers={users} />;
 }

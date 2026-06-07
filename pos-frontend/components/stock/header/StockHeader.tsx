@@ -46,7 +46,7 @@ export function StockHeader({
   onCloseModal, onConfirmSave, isSaving,
   showDeleted, setShowDeleted,
   isAdmin, onOpenValuation,
-}: StockHeaderProps) {
+}: Readonly<StockHeaderProps>) {
   return (
     <>
       {/* Title bar */}

@@ -1,16 +1,15 @@
 import React from 'react';
-import { Clock, Users, Printer, Trash2 } from 'lucide-react';
+import { Clock, Users, Trash2 } from 'lucide-react';
 import { TableResponse } from '@/types';
 
 interface TableCardProps {
   table: TableResponse;
   onClick: () => void;
-  onPrintReceipt: () => void;
   onDelete?: () => void;
   isAdmin?: boolean;
 }
 
-export default function TableCard({ table, onClick, onPrintReceipt, onDelete, isAdmin = false }: TableCardProps) {
+export default function TableCard({ table, onClick, onDelete, isAdmin = false }: TableCardProps) {
   const orders = table.activeOrders || [];
   const isOccupied = table.occupied || orders.length > 0;
   const accumulatedBill = orders.reduce((sum, o) => sum + o.total, 0);
@@ -24,7 +23,7 @@ export default function TableCard({ table, onClick, onPrintReceipt, onDelete, is
       className={`bg-theme-card border rounded-3xl overflow-hidden transition-all duration-300 flex flex-col justify-between relative group ${
         isOccupied
           ? 'border-theme-accent shadow-md shadow-pink-500/5 cursor-pointer hover:shadow-lg hover:border-theme-accent/80'
-          : 'border-zinc-850 opacity-60'
+          : 'border-zinc-855 opacity-60'
       }`}
     >
       {/* Admin table deletion button */}
@@ -92,17 +91,6 @@ export default function TableCard({ table, onClick, onPrintReceipt, onDelete, is
             <span className="text-[8px] text-zinc-500 font-bold uppercase tracking-wider">Accumulated Bill</span>
             <span className="text-xs font-black text-theme-accent font-mono">${accumulatedBill.toFixed(2)}</span>
           </div>
-
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onPrintReceipt();
-            }}
-            className="bg-theme-bg border border-theme-border text-zinc-300 hover:border-theme-accent hover:text-white rounded-xl p-1.5 transition-colors cursor-pointer"
-            title="Print Combined Receipt"
-          >
-            <Printer size={13} />
-          </button>
         </div>
       )}
     </div>

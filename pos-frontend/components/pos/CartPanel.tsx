@@ -3,8 +3,9 @@
 import React, { useState } from 'react';
 import { ShoppingBag as CartIcon, ChevronLeft, ChevronRight, Loader2 } from 'lucide-react';
 import { AnimatePresence } from 'framer-motion';
-import { CartItem, OrderResponse, TableResponse } from '@/types';
+import { TableResponse, ReceiptResponse } from '@/types';
 import { createOrder } from '@/services/api-orders';
+import { fetchReceiptById } from '@/services/api-receipts';
 import { CartItemCard } from './cart/CartItemCard';
 import { CheckoutModal } from './cart/CheckoutModal';
 import { ReceiptModal } from '@/components/ui/modal/ReceiptModal';
@@ -23,7 +24,7 @@ export function CartPanel({
   handleOrderCompleted,
   maidEmail,
   tables,
-}: CartPanelProps) {
+}: Readonly<CartPanelProps>) {
   const {
     cart,
     totals,
@@ -35,7 +36,7 @@ export function CartPanel({
   } = useCart();
 
   const [showCheckoutModal, setShowCheckoutModal] = useState(false);
-  const [completedOrder, setCompletedOrder] = useState<OrderResponse | null>(null);
+  const [completedReceipt, setCompletedReceipt] = useState<ReceiptResponse | null>(null);
   const [showReceipt, setShowReceipt] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -88,8 +89,53 @@ export function CartPanel({
       if (res.success && res.data) {
         // Show receipt for takeaway, not for dine-in (calculate later)
         if (serviceType !== 'DINE_IN') {
-          setCompletedOrder(res.data);
-          setShowReceipt(true);
+          const order = res.data;
+          if (order.receiptId) {
+            try {
+              const receiptRes = await fetchReceiptById(order.receiptId);
+              if (receiptRes.success && receiptRes.data) {
+                setCompletedReceipt(receiptRes.data);
+                setShowReceipt(true);
+              }
+            } catch (fetchErr) {
+              console.error('Failed to fetch receipt from database, using fallback', fetchErr);
+              const virtualReceipt: ReceiptResponse = {
+                id: order.id,
+                receiptNumber: order.receiptNumber,
+                subtotal: order.subtotal,
+                tax: order.tax,
+                serviceCharge: order.serviceCharge,
+                discount: order.discount,
+                total: order.total,
+                paymentMethod: order.paymentMethod,
+                serviceType: order.serviceType,
+                tableNumber: order.tableNumber,
+                maidName: order.maidName || 'Maid Staff',
+                orders: [order],
+                createdAt: order.createdAt,
+              };
+              setCompletedReceipt(virtualReceipt);
+              setShowReceipt(true);
+            }
+          } else {
+            const virtualReceipt: ReceiptResponse = {
+              id: order.id,
+              receiptNumber: order.receiptNumber,
+              subtotal: order.subtotal,
+              tax: order.tax,
+              serviceCharge: order.serviceCharge,
+              discount: order.discount,
+              total: order.total,
+              paymentMethod: order.paymentMethod,
+              serviceType: order.serviceType,
+              tableNumber: order.tableNumber,
+              maidName: order.maidName || 'Maid Staff',
+              orders: [order],
+              createdAt: order.createdAt,
+            };
+            setCompletedReceipt(virtualReceipt);
+            setShowReceipt(true);
+          }
         }
       }
 
@@ -289,10 +335,10 @@ export function CartPanel({
 
       <ReceiptModal
         isOpen={showReceipt}
-        order={completedOrder}
+        receipt={completedReceipt}
         onClose={() => {
           setShowReceipt(false);
-          setCompletedOrder(null);
+          setCompletedReceipt(null);
         }}
       />
 

@@ -3,13 +3,13 @@
 import React, { useState, useMemo } from 'react';
 import { Search, X, Terminal } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { CartPanel } from '../../components/pos/CartPanel';
+import { CartPanel } from '@/components/pos/CartPanel';
 import { Product, AuthUser, TableResponse } from '@/types';
 import { CategoryBar } from '@/components/ui/CategoryBar';
 import { CATEGORY_ALL } from '@/constants';
 import { ScrollArea } from '@/components/ui/ScrollArea';
 import { useCart } from '@/context/CartContext';
-import { ProductCard } from '../../components/pos/menu/ProductCard';
+import { ProductCard } from '@/components/pos/menu/ProductCard';
 
 interface PosClientProps {
   products: Product[];
@@ -18,7 +18,7 @@ interface PosClientProps {
   authUser: AuthUser;
 }
 
-export function PosClient({ products = [], categories = [], tables = [], authUser }: PosClientProps) {
+export function PosClient({ products = [], categories = [], tables = [], authUser }: Readonly<PosClientProps>) {
   const router = useRouter();
   
   const [searchQuery, setSearchQuery] = useState('');

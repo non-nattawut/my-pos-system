@@ -1,14 +1,10 @@
 import React from 'react';
-import { verifyAuth } from '../../utils/auth';
-import { redirect } from 'next/navigation';
+import { verifyAdmin } from '@/utils/auth';
 import VouchersClient from './VouchersClient';
 import { fetchVouchers, type Voucher } from '@/services/api-vouchers';
 
 export default async function VouchersPage() {
-  const authUser = await verifyAuth();
-  if (authUser.role !== 'ADMIN') {
-    redirect('/');
-  }
+  const authUser = await verifyAdmin();
 
   let vouchers: Voucher[] = [];
   try {
@@ -20,5 +16,5 @@ export default async function VouchersPage() {
     console.error('Failed to load vouchers:', err);
   }
 
-  return <VouchersClient initialVouchers={vouchers} authUser={authUser} />;
+  return <VouchersClient initialVouchers={vouchers} />;
 }

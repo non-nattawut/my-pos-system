@@ -82,7 +82,7 @@ Refactored using Next.js Parallel Routes as components.
 * **`components/welcome/`**
   * **[components/welcome/WelcomeClient.tsx](app/WelcomeClient.tsx)** - Animated home dashboard welcome widget.
 * **`components/tables/`**
-  * **[components/tables/TablesClient.tsx](./components/tables/TablesClient.tsx)** - Tables status and billing workflow container.
+  * **[components/tables/TablesClient.tsx](app/tables/TablesClient.tsx)** - Tables status and billing workflow container.
   * **[components/tables/TableCard.tsx](./components/tables/TableCard.tsx)** - Single table status card.
   * **[components/tables/TableDetailsDrawer.tsx](./components/tables/TableDetailsDrawer.tsx)** - Drawer component showing sub-orders and bill total for a selected table.
 * **`components/stock/`**

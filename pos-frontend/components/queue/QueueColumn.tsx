@@ -33,7 +33,7 @@ export default function QueueColumn({
   emptyIcon,
   emptyMessage,
   loading,
-}: QueueColumnProps) {
+}: Readonly<QueueColumnProps>) {
   return (
     <div className="flex flex-col gap-4 bg-theme-panel/40 border border-theme-border p-4 rounded-3xl min-w-[300px] lg:w-1/3 flex-1 h-[500px] lg:h-full overflow-hidden">
       {/* Column Header */}

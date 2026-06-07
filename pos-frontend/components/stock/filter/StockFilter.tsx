@@ -33,7 +33,7 @@ export function StockFilter({
   onApplyFilters, onResetFilters,
   selectedCategory, onSelectCategory,
   categories,
-}: StockFilterProps) {
+}: Readonly<StockFilterProps>) {
   return (
     <>
       <StockFilters

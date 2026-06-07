@@ -32,6 +32,15 @@ public class TableService {
     public List<TableResponse> getAllTables() {
         return cafeTableRepository.findAll().stream()
                 .map(this::mapToResponse)
+                .sorted((t1, t2) -> {
+                    try {
+                        int num1 = Integer.parseInt(t1.getTableNumber());
+                        int num2 = Integer.parseInt(t2.getTableNumber());
+                        return Integer.compare(num1, num2);
+                    } catch (NumberFormatException e) {
+                        return t1.getTableNumber().compareTo(t2.getTableNumber());
+                    }
+                })
                 .toList();
     }
 

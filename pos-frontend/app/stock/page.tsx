@@ -1,16 +1,14 @@
 import React from 'react';
 import { StockClient } from '@/components/stock/StockClient';
 import { fetchProducts, fetchCategories } from '@/services/api-products';
+import { Product } from '@/types';
+import { verifyAuth } from '@/utils/auth';
+import { isFulfilledSuccess } from '@/utils/promise';
 
 export const metadata = {
   title: 'NekoBite POS 🐾 | Stock Manager',
   description: 'Manage Akihabara maid bistro food, drinks, and merchandise stock levels.',
 };
-
-import { Product } from '@/types';
-import { verifyAuth } from '../../utils/auth';
-
-import { isFulfilledSuccess } from '@/utils/promise';
 
 export default async function StockPage() {
   const authUser = await verifyAuth();

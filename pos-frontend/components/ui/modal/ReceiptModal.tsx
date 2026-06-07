@@ -3,23 +3,37 @@
 import React from 'react';
 import { Printer } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { OrderResponse } from '@/types';
+import { ReceiptResponse } from '@/types';
 import { formatDateTimeSpace } from '@/utils/date';
 
 interface ReceiptModalProps {
   isOpen: boolean;
-  order: OrderResponse | null;
+  receipt: ReceiptResponse | null;
   onClose: () => void;
 }
 
 export function ReceiptModal({
   isOpen,
-  order,
+  receipt,
   onClose
 }: ReceiptModalProps) {
-  if (!order) return null;
+  if (!receipt) return null;
 
-
+  const orders = receipt.orders || [];
+  // Accumulate items from all nested orders in the receipt
+  const itemMap: Record<string, any> = {};
+  orders.forEach(order => {
+    (order.items || []).forEach(item => {
+      const key = item.product?.id || '';
+      if (!key) return;
+      if (itemMap[key]) {
+        itemMap[key].quantity = (itemMap[key].quantity || 0) + (item.quantity || 0);
+      } else {
+        itemMap[key] = { ...item };
+      }
+    });
+  });
+  const accumulatedItems = Object.values(itemMap);
 
   return (
     <AnimatePresence>
@@ -73,30 +87,30 @@ export function ReceiptModal({
 
             <div className="text-zinc-400 my-2 select-none overflow-hidden whitespace-nowrap text-center text-[10px]">- - - - - - - - - - - - - - - - - - - -</div>
 
-            <div className="flex flex-col gap-1 text-[9px] text-zinc-650">
+            <div className="flex flex-col gap-1 text-[9px] text-zinc-655">
               <div className="flex justify-between">
                 <span>INVOICE:</span>
-                <span className="font-bold">{order.receiptNumber}</span>
+                <span className="font-bold">{receipt.receiptNumber}</span>
               </div>
               <div className="flex justify-between">
                 <span>CASHIER:</span>
-                <span>{order.maidName || 'Maid Staff'}</span>
+                <span>{receipt.maidName || 'Maid Staff'}</span>
               </div>
-              {order.serviceType && (
+              {receipt.serviceType && (
                 <div className="flex justify-between">
                   <span>SERVICE:</span>
                   <span className="uppercase font-bold">
-                    {order.serviceType === 'DINE_IN' ? `Dine In (Table #${order.tableNumber})` : `Takeaway (Queue #${order.receiptNumber.split('-').pop()})`}
+                    {receipt.serviceType === 'DINE_IN' ? `Dine In (Table #${receipt.tableNumber})` : `Takeaway (Queue #${receipt.receiptNumber.split('-').pop()})`}
                   </span>
                 </div>
               )}
               <div className="flex justify-between">
                 <span>DATE:</span>
-                <span>{formatDateTimeSpace(order.createdAt)}</span>
+                <span>{formatDateTimeSpace(receipt.createdAt)}</span>
               </div>
               <div className="flex justify-between">
                 <span>METHOD:</span>
-                <span className="uppercase font-bold">{order.paymentMethod}</span>
+                <span className="uppercase font-bold">{receipt.paymentMethod}</span>
               </div>
             </div>
 
@@ -108,7 +122,7 @@ export function ReceiptModal({
                 <span>Total</span>
               </div>
               
-              {(order.items || []).map((item, idx) => {
+              {accumulatedItems.map((item, idx) => {
                 const productName = item.product?.name || 'Unknown Item';
                 const itemPrice = item.product?.price || 0;
                 const quantity = item.quantity || 0;
@@ -132,20 +146,20 @@ export function ReceiptModal({
             <div className="flex flex-col gap-1 text-[10px] text-zinc-855">
               <div className="flex justify-between">
                 <span>Subtotal</span>
-                <span>${order.subtotal.toFixed(2)}</span>
+                <span>${receipt.subtotal.toFixed(2)}</span>
               </div>
               <div className="flex justify-between">
                 <span>Service Fee (10%)</span>
-                <span>${order.serviceCharge.toFixed(2)}</span>
+                <span>${receipt.serviceCharge.toFixed(2)}</span>
               </div>
               <div className="flex justify-between">
                 <span>Sales Tax (7%)</span>
-                <span>${order.tax.toFixed(2)}</span>
+                <span>${receipt.tax.toFixed(2)}</span>
               </div>
-              {order.discount > 0 && (
+              {receipt.discount > 0 && (
                 <div className="flex justify-between font-bold text-emerald-600">
                   <span>Discount</span>
-                  <span>-${order.discount.toFixed(2)}</span>
+                  <span>-${receipt.discount.toFixed(2)}</span>
                 </div>
               )}
               
@@ -153,7 +167,7 @@ export function ReceiptModal({
 
               <div className="flex justify-between font-black text-xs text-zinc-950">
                 <span>BILL TOTAL</span>
-                <span>${order.total.toFixed(2)}</span>
+                <span>${receipt.total.toFixed(2)}</span>
               </div>
             </div>
 

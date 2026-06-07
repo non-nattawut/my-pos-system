@@ -40,3 +40,15 @@ export async function verifyAuth(): Promise<AuthUser> {
     redirect('/');
   }
 }
+
+/**
+ * Server-side helper to verify user is authenticated and has ADMIN role.
+ * Redirects to the homepage if unauthorized or not an admin.
+ */
+export async function verifyAdmin(): Promise<AuthUser> {
+  const authUser = await verifyAuth();
+  if (authUser.role !== 'ADMIN') {
+    redirect('/');
+  }
+  return authUser;
+}

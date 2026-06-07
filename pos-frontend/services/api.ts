@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { AUTH_TOKEN_KEY } from '@/constants';
+import { AUTH_TOKEN_KEY, AUTH_COOKIE_KEY } from '@/constants';
 
 const getBaseURL = () => {
   if (process.env.NEXT_PUBLIC_API_URL) {
@@ -53,5 +53,25 @@ api.interceptors.request.use(async (config) => {
   }
   return config;
 });
+
+/**
+ * Response interceptor to handle 403 Forbidden.
+ * On the client side, it clears the auth cookies/localStorage and redirects to the homepage.
+ */
+api.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    if (error.response && error.response.status === 403) {
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem(AUTH_COOKIE_KEY);
+        localStorage.removeItem(AUTH_TOKEN_KEY);
+        document.cookie = `${AUTH_COOKIE_KEY}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+        document.cookie = `${AUTH_TOKEN_KEY}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+        window.location.href = '/';
+      }
+    }
+    return Promise.reject(error);
+  }
+);
 
 export default api;

@@ -2,6 +2,7 @@ package com.udong.posbackend.controller;
 
 import com.udong.posbackend.dto.ApiResponse;
 import com.udong.posbackend.dto.auth.UserResponse;
+import com.udong.posbackend.dto.user.ChangePasswordRequest;
 import com.udong.posbackend.dto.user.CreateUserRequest;
 import com.udong.posbackend.dto.user.UpdateProfileRequest;
 import com.udong.posbackend.dto.user.UpdateUserRequest;
@@ -58,6 +59,15 @@ public class UserController {
             Principal principal) {
         UserResponse response = userService.updateUserProfile(principal.getName(), request);
         return ResponseEntity.ok(ApiResponse.success("Profile updated successfully", response));
+    }
+
+    @PutMapping("/profile/password")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MAID', 'CHEF')")
+    public ResponseEntity<ApiResponse<Void>> changePassword(
+            @Valid @RequestBody ChangePasswordRequest request,
+            Principal principal) {
+        userService.changePassword(principal.getName(), request);
+        return ResponseEntity.ok(ApiResponse.success("Password changed successfully", null));
     }
 
     @PutMapping("/{id}")

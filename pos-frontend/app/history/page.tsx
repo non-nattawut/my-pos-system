@@ -3,7 +3,7 @@ import { HistoryClient } from '@/app/history/HistoryClient';
 import { fetchOrders, OrderFilterParams } from '@/services/api-orders';
 import { fetchProducts } from '@/services/api-products';
 import { fetchMaids } from '@/services/api-auth';
-import { verifyAuth } from '../../utils/auth';
+import { verifyAuth } from '@/utils/auth';
 import { OrderResponse, Product, AuthUser } from '@/types';
 
 interface PageProps {
@@ -15,7 +15,7 @@ interface PageProps {
   }>;
 }
 
-export default async function HistoryPage({ searchParams }: PageProps) {
+export default async function HistoryPage({ searchParams }: Readonly<PageProps>) {
   await verifyAuth();
   const params = await searchParams;
 

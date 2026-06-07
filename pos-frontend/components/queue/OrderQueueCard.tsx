@@ -19,7 +19,7 @@ export default function OrderQueueCard({
   actionLabel,
   actionColor,
   onAction,
-}: OrderQueueCardProps) {
+}: Readonly<OrderQueueCardProps>) {
   const isTakeaway = order.serviceType === 'TAKEAWAY';
 
   return (

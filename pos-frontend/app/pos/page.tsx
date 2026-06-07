@@ -8,7 +8,7 @@ import { AuthUser, Product, TableResponse } from '@/types';
 import { isFulfilledSuccess } from '@/utils/promise';
 
 export default async function PosPage() {
-  const authUser = await verifyAuth();
+  const authUser : AuthUser = await verifyAuth();
 
   let products: Product[] = [];
   let categories: string[] = [];

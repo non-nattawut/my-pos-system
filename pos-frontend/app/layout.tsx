@@ -7,8 +7,6 @@ import { ThemeProvider } from "@/components/layout/ThemeProvider";
 import { cookies } from 'next/headers';
 import { AUTH_COOKIE_KEY } from '@/constants';
 
-
-
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],

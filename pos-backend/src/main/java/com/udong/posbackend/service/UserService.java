@@ -3,6 +3,7 @@ package com.udong.posbackend.service;
 import com.udong.posbackend.constant.Role;
 import com.udong.posbackend.dto.auth.UserResponse;
 import com.udong.posbackend.dto.user.CreateUserRequest;
+import com.udong.posbackend.dto.user.ChangePasswordRequest;
 import com.udong.posbackend.dto.user.UpdateProfileRequest;
 import com.udong.posbackend.dto.user.UpdateUserRequest;
 import com.udong.posbackend.exception.ResourceNotFoundException;
@@ -23,6 +24,19 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class UserService implements UserDetailsService {
+  
+  @Transactional
+  public void changePassword(String email, ChangePasswordRequest request) {
+      UserEntity user = userRepository.findByEmail(email)
+              .orElseThrow(() -> new ResourceNotFoundException("User not found with email: " + email));
+      
+      if (!passwordEncoder.matches(request.getOldPassword(), user.getPassword())) {
+          throw new IllegalArgumentException("Current password does not match");
+      }
+      
+      user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+      userRepository.save(user);
+  }
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;

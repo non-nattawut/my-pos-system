@@ -4,9 +4,9 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Product, AuthUser } from '@/types';
 import { fetchProducts, bulkUpdateProductStock, deleteProduct, restoreProduct } from '@/services/api-products';
 import { CATEGORY_ALL } from '@/constants';
-import { StockHeader } from './header/StockHeader';
-import { StockFilter } from './filter/StockFilter';
-import { StockTable } from './table/StockTable';
+import { StockHeader } from '@/components/stock/header/StockHeader';
+import { StockFilter } from '@/components/stock/filter/StockFilter';
+import { StockTable } from '@/components/stock/table/StockTable';
 import { DeleteProductConfirmModal } from '@/components/ui/modal/DeleteProductConfirmModal';
 import { ValuationModal } from './valuation/ValuationModal';
 
@@ -16,7 +16,7 @@ interface StockClientProps {
   authUser?: AuthUser;
 }
 
-export function StockClient({ products: initialProducts = [], categories = [] , authUser }: StockClientProps) {
+export function StockClient({ products: initialProducts = [], categories = [] , authUser }: Readonly<StockClientProps>) {
   const [productsList, setProductsList] = useState<Product[]>(initialProducts);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>(CATEGORY_ALL);
@@ -52,10 +52,10 @@ export function StockClient({ products: initialProducts = [], categories = [] , 
         size: pageSize,
         name: searchQuery.trim() || undefined,
         category: selectedCategory === CATEGORY_ALL ? undefined : selectedCategory,
-        minPrice: minPrice ? parseFloat(minPrice) : undefined,
-        maxPrice: maxPrice ? parseFloat(maxPrice) : undefined,
-        minStock: minStock ? parseInt(minStock, 10) : undefined,
-        maxStock: maxStock ? parseInt(maxStock, 10) : undefined,
+        minPrice: minPrice ? Number.parseFloat(minPrice) : undefined,
+        maxPrice: maxPrice ? Number.parseFloat(maxPrice) : undefined,
+        minStock: minStock ? Number.parseInt(minStock, 10) : undefined,
+        maxStock: maxStock ? Number.parseInt(maxStock, 10) : undefined,
         deleted: showDeleted,
       });
       if (response?.success && response.data) {

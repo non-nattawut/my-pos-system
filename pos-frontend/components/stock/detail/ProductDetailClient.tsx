@@ -16,7 +16,7 @@ interface ProductDetailClientProps {
   categories: string[];
 }
 
-export function ProductDetailClient({ product, isNew, categories = [] }: ProductDetailClientProps) {
+export function ProductDetailClient({ product, isNew, categories = [] }: Readonly<ProductDetailClientProps>) {
   const router = useRouter();
   
   // Local state for the product form fields

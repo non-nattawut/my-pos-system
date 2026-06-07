@@ -47,3 +47,13 @@ export async function fetchUserProfile(): Promise<ApiResponse<AuthUser>> {
   const { data } = await api.get<ApiResponse<AuthUser>>('/api/v1/users/profile');
   return data;
 }
+
+export interface ChangePasswordApiRequest {
+  oldPassword?: string;
+  newPassword?: string;
+}
+
+export async function changePasswordApi(request: ChangePasswordApiRequest): Promise<ApiResponse<void>> {
+  const { data } = await api.put<ApiResponse<void>>('/api/v1/users/profile/password', request);
+  return data;
+}

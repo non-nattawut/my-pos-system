@@ -18,6 +18,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class OrderResponse {
     private UUID id;
+    private UUID receiptId;
     private List<OrderItemResponse> items;
     private BigDecimal subtotal;
     private BigDecimal tax;

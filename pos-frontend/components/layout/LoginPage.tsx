@@ -10,12 +10,12 @@ import { AUTH_COOKIE_KEY, AUTH_TOKEN_KEY } from '@/constants';
 export function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState('');
-  const [pin, setPin] = useState('');
-  const [showPin, setShowPin] = useState(false);
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const isFormInvalid = !email.trim() || !pin.trim();
+  const isFormInvalid = !email.trim() || !password.trim();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,7 +23,7 @@ export function LoginPage() {
       setErrorMsg('Please enter your email, nya!');
       return;
     }
-    if (!pin) {
+    if (!password) {
       setErrorMsg('Please enter your access PIN!');
       return;
     }
@@ -32,7 +32,7 @@ export function LoginPage() {
     setErrorMsg('');
 
     try {
-      const res = await loginApi(email.trim(), pin);
+      const res = await loginApi(email.trim(), password);
       if (res.success && res.data) {
         const user: AuthUser = {
           token: res.data.token,
@@ -57,7 +57,7 @@ export function LoginPage() {
         router.refresh();
       } else {
         setErrorMsg(res.message || 'Authentication Failure!');
-        setPin('');
+        setPassword('');
         setIsLoading(false);
       }
     } catch (err: unknown) {
@@ -67,7 +67,7 @@ export function LoginPage() {
         message = axiosErr.response?.data?.message || message;
       }
       setErrorMsg(message);
-      setPin('');
+      setPassword('');
       setIsLoading(false);
     }
   };
@@ -119,11 +119,11 @@ export function LoginPage() {
             </label>
             <div className="relative">
               <input
-                type={showPin ? 'text' : 'password'}
+                type={showPassword ? 'text' : 'password'}
                 maxLength={10}
-                value={pin}
+                value={password}
                 onChange={(e) => {
-                  setPin(e.target.value);
+                  setPassword(e.target.value);
                   setErrorMsg('');
                 }}
                 placeholder="••••"
@@ -133,11 +133,11 @@ export function LoginPage() {
               <button
                 type="button"
                 onClick={() => {
-                  setShowPin(!showPin);
+                  setShowPassword(!showPassword);
                 }}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-400 transition-colors duration-200 cursor-pointer"
               >
-                {showPin ? <EyeOff size={12} /> : <Eye size={12} />}
+                {showPassword ? <EyeOff size={12} /> : <Eye size={12} />}
               </button>
             </div>
           </div>

@@ -75,6 +75,7 @@ export interface OrderItemDbResponse {
 
 export interface OrderResponse {
   id: string;
+  receiptId?: string;
   receiptNumber: string;
   subtotal: number;
   tax: number;

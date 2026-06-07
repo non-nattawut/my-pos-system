@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { X, Receipt, Printer, Users, Ticket, Tag, Loader2 } from 'lucide-react';
+import { X, Receipt, Users, Ticket, Tag, Loader2 } from 'lucide-react';
 import { TableResponse, OrderItemDbResponse, Product } from '@/types';
 import { ProductImageOrEmoji } from '@/components/ui/ProductImageOrEmoji';
 import { Voucher } from '@/services/api-vouchers';
@@ -13,7 +13,6 @@ import { formatTime } from '@/utils/date';
 interface TableDetailsDrawerProps {
   table: TableResponse;
   onClose: () => void;
-  onPrintCombined: () => void;
   onPay: (voucherCode?: string) => void;
   products: Product[];
 }
@@ -21,7 +20,6 @@ interface TableDetailsDrawerProps {
 export default function TableDetailsDrawer({
   table,
   onClose,
-  onPrintCombined,
   onPay,
   products = []
 }: TableDetailsDrawerProps) {
@@ -226,13 +224,6 @@ export default function TableDetailsDrawer({
 
         {/* Actions */}
         <div className="pt-4 border-t border-zinc-900 flex flex-col gap-2">
-          <button
-            onClick={onPrintCombined}
-            className="w-full py-2.5 bg-zinc-900 hover:bg-zinc-850 border border-zinc-800 text-zinc-300 rounded-2xl text-xs font-bold uppercase flex items-center justify-center gap-1.5 cursor-pointer transition-all active:scale-[0.98]"
-          >
-            <Printer size={13} />
-            Print Combined Bill
-          </button>
           <button
             onClick={() => onPay(appliedVoucher?.code)}
             className="w-full py-3 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-400 hover:to-purple-500 text-white rounded-2xl text-xs font-black uppercase flex items-center justify-center gap-1.5 cursor-pointer transition-all active:scale-[0.98] shadow-md shadow-pink-900/10"

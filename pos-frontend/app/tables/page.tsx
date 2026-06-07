@@ -1,8 +1,8 @@
 import React from 'react';
-import TablesClient from '@/components/tables/TablesClient';
+import TablesClient from '@/app/tables/TablesClient';
 import { fetchTables } from '@/services/api-tables';
 import { fetchProducts } from '@/services/api-products';
-import { verifyAuth } from '../../utils/auth';
+import { verifyAuth } from '@/utils/auth';
 
 import { TableResponse, Product } from '@/types';
 

@@ -23,7 +23,7 @@ export function StockFilters({
   minStock, setMinStock,
   maxStock, setMaxStock,
   onApply, onReset,
-}: StockFiltersProps) {
+}: Readonly<StockFiltersProps>) {
   return (
     <form
       onSubmit={onApply}

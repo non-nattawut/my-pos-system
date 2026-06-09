@@ -14,9 +14,10 @@ interface ProductDetailClientProps {
   product: Product | null; // null if creating a new product
   isNew: boolean;
   categories: string[];
+  isModal?: boolean;
 }
 
-export function ProductDetailClient({ product, isNew, categories = [] }: Readonly<ProductDetailClientProps>) {
+export function ProductDetailClient({ product, isNew, categories = [], isModal = false }: Readonly<ProductDetailClientProps>) {
   const router = useRouter();
   
   // Local state for the product form fields
@@ -162,13 +163,15 @@ export function ProductDetailClient({ product, isNew, categories = [] }: Readonl
       {/* Title Bar */}
       <header className="h-16 px-6 border-b border-theme-border bg-theme-panel backdrop-blur-md flex items-center justify-between gap-4 shrink-0">
         <div className="flex items-center gap-2.5">
-          <button 
-            type="button"
-            onClick={() => router.push('/stock')}
-            className="w-8 h-8 rounded-xl bg-zinc-950/60 hover:bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 hover:text-zinc-200 cursor-pointer transition-all active:scale-95"
-          >
-            <ArrowLeft size={16} />
-          </button>
+          {!isModal && (
+            <button 
+              type="button"
+              onClick={() => router.push('/stock')}
+              className="w-8 h-8 rounded-xl bg-zinc-950/60 hover:bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 hover:text-zinc-200 cursor-pointer transition-all active:scale-95"
+            >
+              <ArrowLeft size={16} />
+            </button>
+          )}
           <h1 className="text-sm font-black text-zinc-200 tracking-wider uppercase">
             {isNew ? '✨ Summon New Product' : '🌸 Alter Product Catalog'}
           </h1>
